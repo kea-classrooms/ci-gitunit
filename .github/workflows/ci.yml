@@ -29,3 +29,18 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      
+    - name: Get issue details
+      id: issue_details
+      uses: octokit/request-action@v2.x
+      with:
+          route: GET /repos/${{ github.repository }}/issues/${{ github.ref }}
+          headers: |
+            Authorization: ${{ secrets.GITHUB_TOKEN }}
+            Accept: application/vnd.github.v3+json
+
+    - name: Print issue details
+      run: |
+          echo "Issue title: ${{ steps.issue_details.outputs.data.title }}"
+          echo "Issue body: ${{ steps.issue_details.outputs.data.body }}"
+          echo "Issue author: ${{ steps.issue_details.outputs.data.user.login }}"
