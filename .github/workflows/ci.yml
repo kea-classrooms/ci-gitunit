@@ -21,3 +21,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: echo "The key is" \\${{ github.sha }}
+      - run: echo "The job was triggered by commit:" ${GITHUB_SHA::7}
