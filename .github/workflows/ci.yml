@@ -44,3 +44,18 @@ jobs:
           echo "Issue title: ${{ steps.issue_details.outputs.data.title }}"
           echo "Issue body: ${{ steps.issue_details.outputs.data.body }}"
           echo "Issue author: ${{ steps.issue_details.outputs.data.user.login }}"
+    
+    - name: Merge issue branch
+      run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git checkout master
+          git merge --no-commit --no-ff "${{ github.ref }}"
+          if git diff --name-only --diff-filter=U | grep -q .
+          then
+            echo "Merge conflict detected"
+            git merge --abort
+            exit 1
+          fi
+          git merge --abort
+
