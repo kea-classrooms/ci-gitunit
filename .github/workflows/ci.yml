@@ -22,3 +22,10 @@ jobs:
       - uses: actions/checkout@v2
       - run: echo "The key is" \\${{ github.sha }}
       - run: echo "The job was triggered by commit:" ${GITHUB_SHA::7}
+      
+  verify_issue:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/heads/issue/')
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
